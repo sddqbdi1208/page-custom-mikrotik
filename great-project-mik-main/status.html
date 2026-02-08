@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    $(if refresh-timeout)
+    <meta http-equiv="refresh" content="$(refresh-timeout-secs)">
+    $(endif)
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />   
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="-1">
+    <title>Internet hotspot - Status</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        $(if advert-pending == 'yes')
+            var popup = '';
+            function focusAdvert() {
+                if (window.focus) popup.focus();
+            }
+            function openAdvert() {
+                popup = open('$(link-advert)', 'hotspot_advert', '');
+                setTimeout("focusAdvert()", 1000);
+            }
+        $(endif)
+        function openLogout() {
+            if (window.name != 'hotspot_status') return true;
+            open('$(link-logout)', 'hotspot_logout', 'toolbar=0,location=0,directories=0,status=0,menubars=0,resizable=1,width=280,height=250');
+            window.close();
+            return false;
+        }
+    </script>
+</head>
+
+<body class="light-theme" $(if advert-pending == 'yes') onLoad="openAdvert()" $(endif)>
+    <!-- Theme Toggle Button -->
+    <div class="theme-toggle">
+        <button id="theme-toggle-btn" class="toggle-btn">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
+    <div class="ie-fixMinHeight">
+        <div class="main">
+            <div class="wrap animated fadeIn">
+                <div class="status-card">
+                    <div class="card-header">
+                        <div class="user-icon">
+                            $(if login-by == 'trial')
+                                <i class="fas fa-user-clock"></i>
+                            $(elif login-by != 'mac')
+                                <i class="fas fa-user-check"></i>
+                            $(else)
+                                <i class="fas fa-wifi"></i>
+                            $(endif)
+                        </div>
+                        $(if login-by == 'trial')
+                            <h1 class="status-title">Hi, trial user!</h1>
+                        $(elif login-by != 'mac')
+                            <h1 class="status-title">Hi, $(username)!</h1>
+                        $(else)
+                            <h1 class="status-title">Connected</h1>
+                        $(endif)
+                        <p class="status-subtitle">You are currently connected to our hotspot</p>
+                    </div>
+                    
+                    <div class="card-body">
+                        <div class="status-info">
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-wifi"></i>
+                                        <span>IP Address</span>
+                                    </div>
+                                    <div class="info-value">$(ip)</div>
+                                </div>
+                                
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-exchange-alt"></i>
+                                        <span>Data Usage</span>
+                                    </div>
+                                    <div class="info-value">
+                                        <div class="data-usage">
+                                            <div class="data-item">
+                                                <i class="fas fa-upload"></i>
+                                                <span>$(bytes-in-nice)</span>
+                                            </div>
+                                            <div class="data-separator">/</div>
+                                            <div class="data-item">
+                                                <i class="fas fa-download"></i>
+                                                <span>$(bytes-out-nice)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                $(if session-time-left)
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-clock"></i>
+                                        <span>Session Time</span>
+                                    </div>
+                                    <div class="info-value">
+                                        <div class="time-info">
+                                            <div class="time-item">
+                                                <span class="time-label">Connected:</span>
+                                                <span class="time-value">$(uptime)</span>
+                                            </div>
+                                            <div class="time-item">
+                                                <span class="time-label">Left:</span>
+                                                <span class="time-value">$(session-time-left)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                $(else)
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-clock"></i>
+                                        <span>Connected</span>
+                                    </div>
+                                    <div class="info-value">$(uptime)</div>
+                                </div>
+                                $(endif)
+                                
+                                $(if blocked == 'yes')
+                                <div class="info-item alert-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                        <span>Status</span>
+                                    </div>
+                                    <div class="info-value">
+                                        <a href="$(link-advert)" target="hotspot_advert" class="alert-link">Advertisement required</a>
+                                    </div>
+                                </div>
+                                $(elif refresh-timeout)
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-sync-alt"></i>
+                                        <span>Status refresh</span>
+                                    </div>
+                                    <div class="info-value">$(refresh-timeout)</div>
+                                </div>
+                                $(endif)
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-footer">
+                        <form action="$(link-logout)" name="logout" onSubmit="return openLogout()">
+                            $(if login-by-mac != 'yes')
+                            <!-- user manager link. if user manager resides on other router, replace $(hostname) by its address
+                            <button onclick="document.location='http://$(hostname)/user?subs='; return false;">status</button>
+                            <!-- end of user manager link -->
+                            <button type="submit" class="logout-btn">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Log out</span>
+                            </button>
+                            $(endif)
+                        </form>
+                        <p class="info bt">Powered by MikroTik RouterOS</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme Toggle Functionality
+        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+        const body = document.body;
+        
+        // Check for saved theme preference
+        const currentTheme = localStorage.getItem('theme') || 'light-theme';
+        body.className = currentTheme;
+        updateThemeIcon(currentTheme);
+        
+        themeToggleBtn.addEventListener('click', function() {
+            if (body.classList.contains('light-theme')) {
+                body.classList.remove('light-theme');
+                body.classList.add('dark-theme');
+                localStorage.setItem('theme', 'dark-theme');
+                updateThemeIcon('dark-theme');
+            } else {
+                body.classList.remove('dark-theme');
+                body.classList.add('light-theme');
+                localStorage.setItem('theme', 'light-theme');
+                updateThemeIcon('light-theme');
+            }
+        });
+        
+        function updateThemeIcon(theme) {
+            const icon = themeToggleBtn.querySelector('i');
+            if (theme === 'dark-theme') {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        }
+        
+        // Add 3D tilt effect to card
+        const card = document.querySelector('.status-card');
+        card.addEventListener('mousemove', function(e) {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / 10;
+            const rotateY = (centerX - x) / 10;
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+        });
+        
+        // Auto-refresh countdown
+        $(if refresh-timeout)
+        let refreshSeconds = $(refresh-timeout-secs);
+        const refreshInterval = setInterval(() => {
+            refreshSeconds--;
+            if (refreshSeconds <= 0) {
+                clearInterval(refreshInterval);
+            }
+            // Update UI with countdown if needed
+        }, 1000);
+        $(endif)
+    </script>
+</body>
+</html>

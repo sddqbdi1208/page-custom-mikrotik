@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />   
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="expires" content="-1">
+    <title>Internet hotspot - Log out</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        function openLogin() {
+            if (window.name != 'hotspot_logout') return true;
+            open('$(link-login)', '_blank', '');
+            window.close();
+            return false;
+        }
+    </script>
+</head>
+
+<body class="light-theme">
+    <!-- Theme Toggle Button -->
+    <div class="theme-toggle">
+        <button id="theme-toggle-btn" class="toggle-btn">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
+    <div class="ie-fixMinHeight">
+        <div class="main">
+            <div class="wrap animated fadeIn">
+                <div class="logout-card">
+                    <div class="card-header">
+                        <div class="logout-icon">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </div>
+                        <h1 class="logout-title">You have just logged out!</h1>
+                        <p class="logout-subtitle">Thank you for using our hotspot service</p>
+                    </div>
+                    
+                    <div class="card-body">
+                        <div class="session-info">
+                            <h2 class="info-title">Session Details</h2>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-user"></i>
+                                        <span>Username</span>
+                                    </div>
+                                    <div class="info-value">$(username)</div>
+                                </div>
+                                
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-wifi"></i>
+                                        <span>IP Address</span>
+                                    </div>
+                                    <div class="info-value">$(ip)</div>
+                                </div>
+                                
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-network-wired"></i>
+                                        <span>MAC Address</span>
+                                    </div>
+                                    <div class="info-value">$(mac)</div>
+                                </div>
+                                
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-clock"></i>
+                                        <span>Session Time</span>
+                                    </div>
+                                    <div class="info-value">$(uptime)</div>
+                                </div>
+                                
+                                $(if session-time-left)
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-hourglass-half"></i>
+                                        <span>Time Left</span>
+                                    </div>
+                                    <div class="info-value">$(session-time-left)</div>
+                                </div>
+                                $(endif)
+                                
+                                <div class="info-item">
+                                    <div class="info-label">
+                                        <i class="fas fa-exchange-alt"></i>
+                                        <span>Data Usage</span>
+                                    </div>
+                                    <div class="info-value">
+                                        <div class="data-usage">
+                                            <div class="data-item">
+                                                <i class="fas fa-upload"></i>
+                                                <span>$(bytes-in-nice)</span>
+                                            </div>
+                                            <div class="data-separator">/</div>
+                                            <div class="data-item">
+                                                <i class="fas fa-download"></i>
+                                                <span>$(bytes-out-nice)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card-footer">
+                        <form action="$(link-login)" name="login" onSubmit="return openLogin()">
+                            <button type="submit" class="login-btn">
+                                <i class="fas fa-sign-in-alt"></i>
+                                <span>Log in again</span>
+                            </button>
+                        </form>
+                        <p class="info bt">Powered by MikroTik RouterOS</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme Toggle Functionality
+        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+        const body = document.body;
+        
+        // Check for saved theme preference
+        const currentTheme = localStorage.getItem('theme') || 'light-theme';
+        body.className = currentTheme;
+        updateThemeIcon(currentTheme);
+        
+        themeToggleBtn.addEventListener('click', function() {
+            if (body.classList.contains('light-theme')) {
+                body.classList.remove('light-theme');
+                body.classList.add('dark-theme');
+                localStorage.setItem('theme', 'dark-theme');
+                updateThemeIcon('dark-theme');
+            } else {
+                body.classList.remove('dark-theme');
+                body.classList.add('light-theme');
+                localStorage.setItem('theme', 'light-theme');
+                updateThemeIcon('light-theme');
+            }
+        });
+        
+        function updateThemeIcon(theme) {
+            const icon = themeToggleBtn.querySelector('i');
+            if (theme === 'dark-theme') {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        }
+        
+        // Add 3D tilt effect to card
+        const card = document.querySelector('.logout-card');
+        card.addEventListener('mousemove', function(e) {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            const rotateX = (y - centerY) / 10;
+            const rotateY = (centerX - x) / 10;
+            
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+        });
+    </script>
+</body>
+</html>
