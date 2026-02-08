@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./style.css" />
+    <meta name="theme-color" content="#667eea" />
+    <title>Success | Hotspot</title>
+    $(if refresh-timeout)
+    <script>
+      setTimeout(function () {
+        location.href = "$(link-status)";
+      }, 3000);
+    </script>
+    $(endif)
+  </head>
+  <body>
+    <!-- Animated Particles Background -->
+    <div class="particles">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+    </div>
+
+    <div class="container">
+      <div class="wrapper glass-effect">
+        <div class="title-wrapper">
+          <div class="success-icon"></div>
+          $(if login-by == 'trial')
+          <h1>Selamat Datang Trial User! 🎉</h1>
+          $(elif login-by != 'mac')
+          <h1>Selamat Datang $(username)! 🎉</h1>
+          $(endif)
+          <p style="margin-top: 20px;">
+            ✅ Anda berhasil terhubung ke jaringan!<br />
+            Kunjungi <a href="$(link-status)">halaman status</a> untuk melihat
+            informasi koneksi Anda.
+          </p>
+        </div>
+
+        <div class="form-footer">
+          <p class="copy-right">
+            Powered By
+            <a target="_blank" href="intent:https://mikmoni.com#Intent;end"
+              >Mikmoni.com</a
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.title = `Success | ${window.location.hostname}`;
+    </script>
+  </body>
+</html>

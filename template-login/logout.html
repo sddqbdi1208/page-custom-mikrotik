@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="expires" content="-1" />
+    <meta name="theme-color" content="#667eea" />
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>Logout | Hotspot</title>
+  </head>
+  <body>
+    <script>
+      function openLogin() {
+        if (window.name != "hotspot_logout") return true;
+        open("$(link-login)", "_blank", "");
+        window.close();
+        return false;
+      }
+    </script>
+
+    <!-- Animated Particles Background -->
+    <div class="particles">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+    </div>
+
+    <div class="container">
+      <div class="wrapper glass-effect">
+        <div class="title-wrapper">
+          <div style="font-size: 64px; margin-bottom: 20px;">👋</div>
+          <h1>Sampai Jumpa!</h1>
+          <p style="margin-top: 20px;">
+            Informasi voucher <strong>$(username)</strong>
+          </p>
+        </div>
+
+        <div style="padding: 0 30px;">
+          <table>
+            <tr>
+              <th>🌐 IP Address</th>
+              <td>$(ip)</td>
+            </tr>
+            <tr>
+              <th>📱 MAC Address</th>
+              <td>$(mac)</td>
+            </tr>
+            <tr>
+              <th>📶 Bytes U/D</th>
+              <td>$(bytes-in-nice) / $(bytes-out-nice)</td>
+            </tr>
+            $(if session-time-left)
+            <tr>
+              <th>⏱️ Uptime / Left</th>
+              <td>$(uptime) / $(session-time-left)</td>
+            </tr>
+            $(else)
+            <tr>
+              <th>⏱️ Uptime</th>
+              <td>$(uptime)</td>
+            </tr>
+            $(endif) $(if remain-bytes-total)
+            <tr>
+              <th>💾 Sisa Kuota</th>
+              <td>$(remain-bytes-total)</td>
+            </tr>
+            $(endif)
+          </table>
+        </div>
+
+        <form
+          action="$(link-login)"
+          autocomplete="off"
+          method="POST"
+          name="login"
+          onSubmit="return openLogin()"
+          style="padding: 0 30px 30px;"
+        >
+          <button class="btn btn-primary" type="submit">
+            <span>Login Kembali</span>
+          </button>
+        </form>
+
+        <div class="form-footer">
+          <p class="copy-right">
+            Powered By
+            <a target="_blank" href="intent:https://mikmoni.com#Intent;end"
+              >Mikmoni.com</a
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.title = `Logout | ${window.location.hostname}`;
+    </script>
+  </body>
+</html>

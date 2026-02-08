@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content="2; url=$(link-redirect)" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#667eea" />
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./style.css" />
+    <title>Redirect | Hotspot</title>
+    <script>
+      function startClock() {
+        $(if popup == 'true')
+          open('$(link-status)', 'hotspot_status', 'toolbar=0,location=0,directories=0,status=0,menubars=0,resizable=1,width=290,height=200');
+        $(endif)
+          location.href = './success.html';
+      }
+    </script>
+  </head>
+  <body onload="startClock()">
+    <!-- Animated Particles Background -->
+    <div class="particles">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+    </div>
+
+    <div class="container">
+      <div class="wrapper glass-effect">
+        <div class="title-wrapper">
+          <div class="loading-spinner"></div>
+          <h1 style="margin-top: 30px;">Berhasil Terhubung! ✅</h1>
+          <p style="margin-top: 20px;">
+            Mengalihkan ke halaman sukses...<br />
+            Jika belum teralihkan, <a href="./login">klik di sini</a>
+          </p>
+        </div>
+
+        <div class="form-footer">
+          <p class="copy-right">
+            Powered By
+            <a target="_blank" href="intent:https://mikmoni.com#Intent;end"
+              >Mikmoni.com</a
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.title = `Redirect | ${window.location.hostname}`;
+    </script>
+  </body>
+</html>
